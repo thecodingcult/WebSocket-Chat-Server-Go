@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WebSocket Chat Server</title>
+   
   </head>
   <body>
     <h1>WebSocket Chat Server</h1>
