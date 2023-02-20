@@ -26,22 +26,22 @@ type connection struct {
 // writer writes messages to the WebSocket connection
 func (c *connection) writer() {
 	defer func() {
-		c.server.unregister <- c.ws
-		c.ws.Close()
+	c.server.unregister <- c.ws
+	c.ws.Close()
 	}()
 
 	for {
 		select {
 		case message, ok := <-c.send:
 			if !ok {
-				// The channel has been closed by the server
-				return
+			// The channel has been closed by the server
+			return
 			}
 
 			err := c.ws.WriteMessage(websocket.TextMessage, message)
 			if err != nil {
-				fmt.Println("Error writing message:", err)
-				return
+			fmt.Println("Error writing message:", err)
+			return
 			}
 		}
 	}
@@ -50,15 +50,15 @@ func (c *connection) writer() {
 // reader reads messages from the WebSocket connection
 func (c *connection) reader() {
 	defer func() {
-		c.server.unregister <- c.ws
-		c.ws.Close()
-	}()
+	c.server.unregister <- c.ws
+	c.ws.Close()
+}()
 
 	for {
 		_, message, err := c.ws.ReadMessage()
 		if err != nil {
-			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				fmt.Println("Error reading message:", err)
+		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+			fmt.Println("Error reading message:", err)
 			}
 			break
 		}
