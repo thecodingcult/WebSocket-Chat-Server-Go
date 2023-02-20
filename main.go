@@ -47,23 +47,23 @@ func (c *connection) writer() {
 	}
 }
 
-// reader reads messages from the WebSocket connection
-func (c *connection) reader() {
+        // reader reads messages from the WebSocket connection
+        func (c *connection) reader() {
 	defer func() {
 	c.server.unregister <- c.ws
 	c.ws.Close()
-}()
+         }()
 
 	for {
-		_, message, err := c.ws.ReadMessage()
-		if err != nil {
-		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-			fmt.Println("Error reading message:", err)
-			}
-			break
-		}
+	      _, message, err := c.ws.ReadMessage()
+	      if err != nil {
+	      if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+	      fmt.Println("Error reading message:", err)
+	      }
+	      break
+	      }
 
-		c.server.broadcast <- message
+	      c.server.broadcast <- message
 	}
 }
 
